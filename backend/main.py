@@ -34,7 +34,10 @@ app = FastAPI(title="KPI Agent API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
+    # `ng serve` picks a different port whenever 4200 is already taken, so
+    # allow any localhost/127.0.0.1 port rather than hardcoding one. This is
+    # a local dev tool, never meant to be exposed beyond localhost.
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):\d+",
     allow_methods=["*"],
     allow_headers=["*"],
 )
