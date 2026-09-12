@@ -13,7 +13,8 @@ import {
   isSeriesPreview,
 } from '../models';
 
-const DEFAULT_QUESTION = "What's the monthly churn rate by region for the last 12 months?";
+const DEFAULT_QUESTION =
+  'What are the total monthly sales and profit by region for the most recent 12 months in the data?';
 
 const STATUS_LABELS: Record<StepStatus, string> = {
   pending: 'Pending',

@@ -11,7 +11,7 @@
     <div class="field-group radio-group">
       <label class="radio">
         <input type="radio" name="source" [checked]="useSample()" (change)="useSample.set(true)" [disabled]="isRunning()" />
-        Use sample dataset (churn.csv)
+        Use sample dataset (Superstore sales)
       </label>
       <label class="radio">
         <input type="radio" name="source" [checked]="!useSample()" (change)="useSample.set(false)" [disabled]="isRunning()" />

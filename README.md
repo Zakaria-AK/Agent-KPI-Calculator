@@ -29,10 +29,14 @@ planner -> coder -> executor -> [router]
 src/            the LangGraph agent itself (state, nodes, router, graph, sandboxed executor, LLM client)
 backend/        FastAPI wrapper exposing the agent over HTTP + Server-Sent Events
 frontend/       Angular UI (standalone components, signals) that drives a run and streams live progress
-scripts/        manual smoke scripts (end-to-end run, checkpoint pause/resume demo, sample data generator)
+scripts/        manual smoke scripts (end-to-end run, checkpoint pause/resume demo)
 tests/          pytest suite for the agent, sandbox, and API serialization (no LLM calls, no cost)
-data/           bundled sample dataset (synthetic churn CSV) used by the UI's "use sample dataset" option
+data/           bundled sample dataset used by the UI's "use sample dataset" option
 ```
+
+### Sample dataset
+
+`data/superstore.csv` is Tableau's classic "Sample - Superstore" dataset — the de facto standard practice dataset used across the BI/analytics world (order-level retail data: dates, US regions, product categories, sales, profit). It's realistic synthetic retail data rather than a live production export, but unlike a hand-generated file it has genuine, independently-recognizable structure and is a known quantity for anyone reviewing this project.
 
 ## Setup
 

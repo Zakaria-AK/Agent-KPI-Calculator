@@ -27,7 +27,7 @@ from src.state import initial_state
 
 from backend.serialization import to_jsonable
 
-SAMPLE_CSV_PATH = ROOT / "data" / "sample_churn.csv"
+SAMPLE_CSV_PATH = ROOT / "data" / "superstore.csv"
 UPLOADS_DIR = ROOT / "backend" / "uploads"
 
 app = FastAPI(title="KPI Agent API")

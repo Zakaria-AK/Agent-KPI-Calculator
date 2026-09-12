@@ -30,9 +30,9 @@ from src.state import initial_state
 
 ROOT = Path(__file__).resolve().parent.parent
 DB_PATH = str(ROOT / "data" / "checkpoints.sqlite")
-CSV_PATH = str(ROOT / "data" / "sample_churn.csv")
+CSV_PATH = str(ROOT / "data" / "superstore.csv")
 THREAD_ID = "kpi-demo-run"
-QUESTION = "What's the monthly churn rate by region for the last 12 months?"
+QUESTION = "What are the total monthly sales and profit by region for the most recent 12 months in the data?"
 
 config = {"configurable": {"thread_id": THREAD_ID}}
 

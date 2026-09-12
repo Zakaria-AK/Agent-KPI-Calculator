@@ -14,8 +14,8 @@ from src.graph import build_graph
 from src.schema_preview import build_schema_preview
 from src.state import initial_state
 
-CSV_PATH = str(Path(__file__).resolve().parent.parent / "data" / "sample_churn.csv")
-QUESTION = "What's the monthly churn rate by region for the last 12 months?"
+CSV_PATH = str(Path(__file__).resolve().parent.parent / "data" / "superstore.csv")
+QUESTION = "What are the total monthly sales and profit by region for the most recent 12 months in the data?"
 
 state = initial_state(csv_paths=[CSV_PATH], question=QUESTION)
 state["csv_schema_preview"] = build_schema_preview(state["csv_paths"])
