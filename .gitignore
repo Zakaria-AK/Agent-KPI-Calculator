@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+backend/uploads/
+data/checkpoints.sqlite
+node_modules/
+frontend/dist/
+frontend/.angular/
+.pytest_cache/

@@ -1,0 +1,143 @@
+<main class="page">
+  <header class="page-header">
+    <h1>LangGraph KPI Agent</h1>
+    <p class="subtitle">
+      Ask a KPI question over CSV data. A LangGraph agent plans it, writes pandas code, executes it in a
+      sandbox, retries on failure, and synthesizes a report.
+    </p>
+  </header>
+
+  <section class="panel form-panel">
+    <div class="field-group radio-group">
+      <label class="radio">
+        <input type="radio" name="source" [checked]="useSample()" (change)="useSample.set(true)" [disabled]="isRunning()" />
+        Use sample dataset (churn.csv)
+      </label>
+      <label class="radio">
+        <input type="radio" name="source" [checked]="!useSample()" (change)="useSample.set(false)" [disabled]="isRunning()" />
+        Upload CSV file(s)
+      </label>
+    </div>
+
+    @if (!useSample()) {
+      <div class="field-group">
+        <input type="file" accept=".csv" multiple (change)="onFilesSelected($event)" [disabled]="isRunning()" />
+        @if (selectedFiles().length > 0) {
+          <ul class="file-list">
+            @for (file of selectedFiles(); track file.name) {
+              <li>{{ file.name }}</li>
+            }
+          </ul>
+        }
+      </div>
+    }
+
+    <div class="field-group">
+      <label for="question">KPI question</label>
+      <textarea
+        id="question"
+        rows="3"
+        [value]="question()"
+        (input)="onQuestionInput($event)"
+        [disabled]="isRunning()"
+      ></textarea>
+    </div>
+
+    <button class="run-button" type="button" (click)="submit()" [disabled]="!canSubmit()">
+      {{ isRunning() ? 'Running…' : 'Run' }}
+    </button>
+
+    @if (errorMessage()) {
+      <p class="error-banner">{{ errorMessage() }}</p>
+    }
+  </section>
+
+  @if (steps().length > 0) {
+    <section class="panel plan-panel">
+      <h2>Plan</h2>
+      <ol class="steps">
+        @for (step of steps(); track step.index) {
+          <li class="step" [class]="'status-' + step.status">
+            <div class="step-header">
+              <span class="step-index">Step {{ step.index }}</span>
+              <span class="step-status">{{ statusLabel(step.status) }}</span>
+            </div>
+            <p class="step-description">{{ step.description }}</p>
+
+            @if (step.codeAttempts.length > 0) {
+              <details class="code-block" [open]="step.status !== 'succeeded'">
+                <summary>
+                  Code{{ step.codeAttempts.length > 1 ? ' (attempt ' + step.codeAttempts.length + ')' : '' }}
+                </summary>
+                <pre>{{ step.codeAttempts[step.codeAttempts.length - 1] }}</pre>
+              </details>
+            }
+
+            @if (step.error) {
+              <p class="step-error">{{ step.error }}</p>
+            }
+
+            @if (step.result !== undefined) {
+              <div class="step-result">
+                <ng-container *ngTemplateOutlet="resultView; context: { $implicit: step.result }" />
+              </div>
+            }
+          </li>
+        }
+      </ol>
+    </section>
+  }
+
+  @if (finalReport()) {
+    <section class="panel report-panel" [class.failed]="runStatus() === 'failed'">
+      <h2>{{ runStatus() === 'failed' ? 'Run failed' : 'Final report' }}</h2>
+      <pre class="report-text">{{ finalReport() }}</pre>
+    </section>
+  }
+</main>
+
+<!-- Recursive renderer for a step's `result`: handles plain values, DataFrame/Series
+     previews, and arrays of any of those (e.g. a list of per-month DataFrames). -->
+<ng-template #resultView let-value>
+  @if (isArray(value)) {
+    <div class="result-list">
+      @for (item of value; track $index) {
+        <div class="result-list-item">
+          <span class="result-list-index">[{{ $index }}]</span>
+          <ng-container *ngTemplateOutlet="resultView; context: { $implicit: item }" />
+        </div>
+      }
+    </div>
+  } @else {
+    @if (asDataFrame(value); as df) {
+      <p class="result-meta">DataFrame: {{ df.shape[0] }} rows × {{ df.shape[1] }} cols</p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              @for (col of df.columns; track col) {
+                <th>{{ col }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of df.preview; track $index) {
+              <tr>
+                @for (col of df.columns; track col) {
+                  <td>{{ row[col] }}</td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      @if (asSeries(value); as series) {
+        <p class="result-meta">Series "{{ series.name }}" ({{ series.length }} values)</p>
+        <pre>{{ series.preview | json }}</pre>
+      } @else {
+        <pre>{{ value | json }}</pre>
+      }
+    }
+  }
+</ng-template>

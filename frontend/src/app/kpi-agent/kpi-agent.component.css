@@ -1,0 +1,272 @@
+:host {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --border: #2a2e38;
+  --text: #e6e8ec;
+  --text-dim: #9aa1ac;
+  --accent: #6ea8fe;
+  --success: #4caf7d;
+  --warning: #e0a94c;
+  --danger: #e0645c;
+  display: block;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+.page-header h1 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+}
+
+.subtitle {
+  color: var(--text-dim);
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.field-group {
+  margin-bottom: 16px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+textarea,
+input[type='file'] {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+
+.file-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.run-button {
+  background: var(--accent);
+  color: #0f1115;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.run-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error-banner {
+  margin-top: 12px;
+  color: var(--danger);
+}
+
+.plan-panel h2,
+.report-panel h2 {
+  margin-top: 0;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.step {
+  border: 1px solid var(--border);
+  border-left-width: 4px;
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.step.status-pending {
+  border-left-color: var(--border);
+  opacity: 0.6;
+}
+
+.step.status-running {
+  border-left-color: var(--accent);
+}
+
+.step.status-retrying {
+  border-left-color: var(--warning);
+}
+
+.step.status-succeeded {
+  border-left-color: var(--success);
+}
+
+.step.status-failed {
+  border-left-color: var(--danger);
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.step-status {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-running .step-status {
+  color: var(--accent);
+}
+
+.status-retrying .step-status {
+  color: var(--warning);
+}
+
+.status-succeeded .step-status {
+  color: var(--success);
+}
+
+.status-failed .step-status {
+  color: var(--danger);
+}
+
+.step-description {
+  margin: 0 0 10px;
+}
+
+.code-block {
+  margin: 10px 0;
+}
+
+.code-block summary {
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+pre {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.step-error {
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+.result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-list-item {
+  border-left: 2px solid var(--border);
+  padding-left: 10px;
+}
+
+.result-list-index {
+  display: block;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+}
+
+.result-meta {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin: 6px 0;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  min-width: 100%;
+}
+
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.report-panel {
+  border-color: var(--success);
+}
+
+.report-panel.failed {
+  border-color: var(--danger);
+}
+
+.report-text {
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
