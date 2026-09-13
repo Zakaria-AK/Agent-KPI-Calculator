@@ -4,7 +4,7 @@ A recursive, code-writing KPI agent built with [LangGraph](https://langchain-ai.
 
 ![Screenshot](docs/screenshot.png)
 
-This started as a learning project to build hands-on intuition for LangGraph's `StateGraph` (explicit typed state, conditional edges, checkpointing) as an alternative to a hand-rolled "shared mutable context + while loop" agent pattern. The full design rationale lives in [langgraph-kpi-agent-spec.md](langgraph-kpi-agent-spec.md).
+This started as a learning project to build hands-on intuition for LangGraph's `StateGraph` (explicit typed state, conditional edges, checkpointing) as an alternative to a hand-rolled "shared mutable context + while loop" agent pattern.
 
 ## How it works
 
