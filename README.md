@@ -94,14 +94,3 @@ pytest tests/ -v
 ```
 
 The suite (21 tests) covers the router's retry/advance/finish/fail decision, the sandboxed executor (success, exceptions, timeouts, secret isolation, the throwaway-cwd fix), and the backend's SSE JSON serialization — none of it makes a real LLM call, so it's fast and free to run.
-
-## Design notes and known limitations
-
-- **Sandboxing is subprocess + timeout + stripped env, not a container.** It isolates crashes, infinite loops, and secrets, but not the filesystem or network — generated code can still read/write any file the OS user can via an absolute path. A Docker-based executor would close that gap at the cost of needing Docker available and added latency per step.
-- **Retries only catch exceptions, not silently-wrong-but-successful code.** If a step runs cleanly but produces incomplete or incorrect results (e.g. a loop that only appends one row instead of twelve), the router sees `error = None` and advances — there's no step-level correctness check.
-- **The SSE stream doesn't support reconnection or client-disconnect cancellation.** If a client disconnects mid-run, the run keeps executing on the server rather than being cancelled.
-- **The run registry is in-memory, single-process.** Fine for a local/demo deployment; a real deployment would need persistent, multi-worker-safe run storage.
-
-## What this is for
-
-Built and documented as prep for discussing LangGraph in an interview context — see the spec doc for the full "why this design" rationale, including how each piece compares to a hand-rolled agent loop.
